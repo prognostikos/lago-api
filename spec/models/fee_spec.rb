@@ -19,13 +19,13 @@ RSpec.describe Fee, type: :model do
 
   describe '.compute_vat' do
     it 'computes the vat' do
-      fee = fee_model.new(amount_cents: 100, amount_currency: 'EUR', vat_rate: 20.0)
+      fee = fee_model.new(amount: 100.00, amount_currency: 'EUR', vat_rate: 20.0)
 
       fee.compute_vat
 
       aggregate_failures do
         expect(fee.vat_amount_currency).to eq('EUR')
-        expect(fee.vat_amount_cents).to eq(20)
+        expect(fee.vat_amount).to eq(20.00)
       end
     end
   end

@@ -31,10 +31,10 @@ module Charges
       end
 
       def valid_amounts?(range)
-        range[:per_unit_amount_cents].is_a?(Numeric) &&
-          range[:flat_amount_cents].is_a?(Numeric) &&
-          !range[:per_unit_amount_cents].negative? &&
-          !range[:flat_amount_cents].negative?
+        BigDecimal(range[:per_unit_amount]).finite? &&
+          BigDecimal(range[:flat_amount]).finite? &&
+          !BigDecimal(range[:per_unit_amount]).negative? &&
+          !BigDecimal(range[:flat_amount]).negative?
       end
 
       def valid_bounds?(range, index, next_from_value)

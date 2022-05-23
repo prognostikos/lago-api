@@ -10,12 +10,12 @@ module Fees
     def create
       return result if already_billed?
 
-      new_amount_cents = compute_amount
+      new_amount = compute_amount
 
       new_fee = Fee.new(
         invoice: invoice,
         subscription: subscription,
-        amount_cents: new_amount_cents.round,
+        amount: new_amount,
         amount_currency: plan.amount_currency,
         vat_rate: customer.applicable_vat_rate,
       )
@@ -116,7 +116,7 @@ module Fees
     #
     #       The amount to bill is computed with:
     #       **nb_day** = number of days between beggining of the period and the termination date
-    #       **day_cost** = (plan amount_cents / full period duration)
+    #       **day_cost** = (plan amount / full period duration)
     #       amount_to_bill = (nb_day * day_cost)
     def terminated_amount
       from_date = invoice.from_date
@@ -173,10 +173,10 @@ module Fees
         #
         #       The amount to bill is computed with:
         #       **nb_day** = number of days between current date and end of period
-        #       **old_day_price** = (old plan amount_cents / full period duration)
-        #       **new_day_price** = (new plan amount_cents / full period duration)
+        #       **old_day_price** = (old plan amount / full period duration)
+        #       **new_day_price** = (new plan amount / full period duration)
         #       amount_to_bill = nb_day * (new_day_price - old_day_price)
-        old_day_price = single_day_price(previous_subscription.plan.amount_cents)
+        old_day_price = single_day_price(previous_subscription.plan.amount)
 
         number_of_day_to_bill * (single_day_price - old_day_price)
       else
@@ -185,7 +185,7 @@ module Fees
         #
         #       The amount to bill is computed with:
         #       **nb_day** = number of days between upgrade and the end of the period
-        #       **day_cost** = (plan amount_cents / full period duration)
+        #       **day_cost** = (plan amount / full period duration)
         #       amount_to_bill = (nb_day * day_cost)
         number_of_day_to_bill * single_day_price
       end
@@ -210,11 +210,11 @@ module Fees
         end
       end
 
-      plan.amount_cents
+      plan.amount
     end
 
     # NOTE: cost of a single day in a period
-    def single_day_price(amount_cents = plan.amount_cents)
+    def single_day_price(amount = plan.amount)
       from_date = invoice.from_date
 
       # NOTE: Duration in days of full billed period (without termination)
@@ -227,8 +227,8 @@ module Fees
                  else
                    raise NotImplementedError
       end
-
-      amount_cents.fdiv(duration.to_i)
+      byebug
+      amount.fdiv(duration.to_i)
     end
   end
 end

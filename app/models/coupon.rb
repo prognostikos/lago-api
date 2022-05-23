@@ -18,12 +18,9 @@ class Coupon < ApplicationRecord
   enum status: STATUSES
   enum expiration: EXPIRATION_TYPES
 
-  monetize :amount_cents
-
   validates :name, presence: true
   validates :code, uniqueness: { scope: :organization_id, allow_nil: true }
 
-  validates :amount_cents, numericality: { greater_than: 0 }
   validates :amount_currency, inclusion: { in: currency_list }
 
   validates :expiration_duration, numericality: { greater_than: 0 }, if: :time_limit?

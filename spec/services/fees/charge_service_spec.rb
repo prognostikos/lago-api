@@ -16,7 +16,7 @@ RSpec.describe Fees::ChargeService do
       plan: subscription.plan,
       billable_metric: billable_metric,
       properties: {
-        amount_cents: 20,
+        amount: '20.0',
         amount_currency: 'EUR',
       },
     )
@@ -34,9 +34,9 @@ RSpec.describe Fees::ChargeService do
         expect(created_fee.id).not_to be_nil
         expect(created_fee.invoice_id).to eq(invoice.id)
         expect(created_fee.charge_id).to eq(charge.id)
-        expect(created_fee.amount_cents).to eq(0)
+        expect(created_fee.amount).to eq(0)
         expect(created_fee.amount_currency).to eq('EUR')
-        expect(created_fee.vat_amount_cents).to eq(0)
+        expect(created_fee.vat_amount).to eq(0)
         expect(created_fee.vat_rate).to eq(20.0)
       end
     end
@@ -52,8 +52,8 @@ RSpec.describe Fees::ChargeService do
             {
               from_value: 0,
               to_value: nil,
-              per_unit_amount_cents: 10,
-              flat_amount_cents: 10,
+              per_unit_amount: '10.0',
+              flat_amount: '10.0',
             },
           ],
         )
@@ -70,9 +70,9 @@ RSpec.describe Fees::ChargeService do
           expect(created_fee.id).not_to be_nil
           expect(created_fee.invoice_id).to eq(invoice.id)
           expect(created_fee.charge_id).to eq(charge.id)
-          expect(created_fee.amount_cents).to eq(0)
+          expect(created_fee.amount).to eq(0)
           expect(created_fee.amount_currency).to eq('EUR')
-          expect(created_fee.vat_amount_cents).to eq(0)
+          expect(created_fee.vat_amount).to eq(0)
           expect(created_fee.vat_rate).to eq(20.0)
         end
       end
@@ -94,7 +94,7 @@ RSpec.describe Fees::ChargeService do
     end
 
     context 'when billing an new upgraded subscription' do
-      let(:previous_plan) { create(:plan, amount_cents: subscription.plan.amount_cents - 20) }
+      let(:previous_plan) { create(:plan, amount: subscription.plan.amount - 20) }
       let(:previous_subscription) do
         create(:subscription, plan: previous_plan, status: :terminated)
       end
@@ -129,9 +129,9 @@ RSpec.describe Fees::ChargeService do
           expect(created_fee.id).not_to be_nil
           expect(created_fee.invoice_id).to eq(invoice.id)
           expect(created_fee.charge_id).to eq(charge.id)
-          expect(created_fee.amount_cents).to eq(20)
+          expect(created_fee.amount).to eq(20)
           expect(created_fee.amount_currency).to eq('EUR')
-          expect(created_fee.vat_amount_cents).to eq(4)
+          expect(created_fee.vat_amount).to eq(4)
           expect(created_fee.vat_rate).to eq(20.0)
         end
       end
@@ -157,9 +157,9 @@ RSpec.describe Fees::ChargeService do
             expect(created_fee.id).not_to be_nil
             expect(created_fee.invoice_id).to eq(invoice.id)
             expect(created_fee.charge_id).to eq(charge.id)
-            expect(created_fee.amount_cents).to eq(0)
+            expect(created_fee.amount).to eq(0)
             expect(created_fee.amount_currency).to eq('EUR')
-            expect(created_fee.vat_amount_cents).to eq(0)
+            expect(created_fee.vat_amount).to eq(0)
             expect(created_fee.vat_rate).to eq(20.0)
           end
         end

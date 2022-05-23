@@ -7,7 +7,7 @@ FactoryBot.define do
     code { Faker::Name.name.underscore }
     interval { 'monthly' }
     pay_in_advance { false }
-    amount_cents { 100 }
+    amount { 100.00 }
     amount_currency { 'EUR' }
   end
 end

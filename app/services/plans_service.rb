@@ -9,7 +9,7 @@ class PlansService < BaseService
       description: args[:description],
       interval: args[:interval].to_sym,
       pay_in_advance: args[:pay_in_advance],
-      amount_cents: args[:amount_cents],
+      amount: args[:amount],
       amount_currency: args[:amount_currency],
       trial_period: args[:trial_period],
     )
@@ -45,7 +45,7 @@ class PlansService < BaseService
       plan.code = args[:code]
       plan.interval = args[:interval].to_sym
       plan.pay_in_advance = args[:pay_in_advance]
-      plan.amount_cents = args[:amount_cents]
+      plan.amount = args[:amount]
       plan.amount_currency = args[:amount_currency]
       plan.trial_period = args[:trial_period]
     end

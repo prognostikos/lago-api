@@ -91,14 +91,14 @@ module Invoices
     end
 
     def compute_amounts(invoice)
-      fee_amounts = invoice.fees.select(:amount_cents, :vat_amount_cents)
+      fee_amounts = invoice.fees.select(:amount, :vat_amount)
 
-      invoice.amount_cents = fee_amounts.sum(&:amount_cents)
+      invoice.amount = fee_amounts.sum(&:amount)
       invoice.amount_currency = plan.amount_currency
-      invoice.vat_amount_cents = fee_amounts.sum(&:vat_amount_cents)
+      invoice.vat_amount = fee_amounts.sum(&:vat_amount)
       invoice.vat_amount_currency = plan.amount_currency
 
-      invoice.total_amount_cents = invoice.amount_cents + invoice.vat_amount_cents
+      invoice.total_amount = invoice.amount + invoice.vat_amount
       invoice.total_amount_currency = plan.amount_currency
 
       invoice.save!

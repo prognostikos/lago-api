@@ -5,7 +5,7 @@ FactoryBot.define do
     code { Faker::Name.name.underscore }
     status { 'active' }
     expiration { 'no_expiration' }
-    amount_cents { 200 }
+    amount { 200.00 }
     amount_currency { 'EUR' }
   end
 end

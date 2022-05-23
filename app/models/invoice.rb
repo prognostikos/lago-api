@@ -11,9 +11,6 @@ class Invoice < ApplicationRecord
   has_one :organization, through: :subscription
   has_one :plan, through: :subscription
 
-  monetize :amount_cents
-  monetize :vat_amount_cents
-
   sequenced scope: ->(invoice) { invoice.organization.invoices }
 
   validates :from_date, presence: true

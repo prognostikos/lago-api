@@ -6,10 +6,10 @@ FactoryBot.define do
     charge { nil }
     subscription
 
-    amount_cents { 200 }
+    amount { 200.00 }
     amount_currency { 'EUR' }
 
-    vat_amount_cents { 2 }
+    vat_amount { 2.00 }
     vat_amount_currency { 'EUR' }
   end
 end

@@ -17,7 +17,7 @@ RSpec.describe Coupons::UpdateService, type: :service do
       {
         id: coupon.id,
         name: 'new name',
-        amount_cents: 100,
+        amount: '100.0',
         amount_currency: 'EUR',
         expiration: 'time_limit',
         expiration_duration: 30,
@@ -31,7 +31,7 @@ RSpec.describe Coupons::UpdateService, type: :service do
 
       aggregate_failures do
         expect(result.coupon.name).to eq('new name')
-        expect(result.coupon.amount_cents).to eq(100)
+        expect(result.coupon.amount.to_s).to eq('100.0')
         expect(result.coupon.amount_currency).to eq('EUR')
         expect(result.coupon.expiration).to eq('time_limit')
         expect(result.coupon.expiration_duration).to eq(30)
@@ -43,7 +43,7 @@ RSpec.describe Coupons::UpdateService, type: :service do
         {
           id: coupon.id,
           name: nil,
-          amount_cents: 100,
+          amount: '100.0',
           amount_currency: 'EUR',
           expiration: 'time_limit',
           expiration_duration: 30,
@@ -53,7 +53,7 @@ RSpec.describe Coupons::UpdateService, type: :service do
       it 'returns an error' do
         result = update_service.update(**update_args)
 
-        expect(result).to_not be_success
+        expect(result).not_to be_success
         expect(result.error_code).to eq('unprocessable_entity')
       end
     end

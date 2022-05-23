@@ -8,7 +8,7 @@ RSpec.describe Fees::SubscriptionService do
   let(:plan) do
     create(
       :plan,
-      amount_cents: 100,
+      amount: 100,
       amount_currency: 'EUR',
     )
   end
@@ -40,9 +40,9 @@ RSpec.describe Fees::SubscriptionService do
       aggregate_failures do
         expect(created_fee.id).not_to be_nil
         expect(created_fee.invoice_id).to eq(invoice.id)
-        expect(created_fee.amount_cents).to eq(plan.amount_cents)
-        expect(created_fee.amount_currency).to eq(plan.amount_currency)
-        expect(created_fee.vat_amount_cents).to eq(20)
+        expect(created_fee.amount).to eq(plan.amount)
+        expect(created_fee.amount_currenc).to eq(plan.amount_currency)
+        expect(created_fee.vat_amount).to eq(20)
         expect(created_fee.vat_rate).to eq(20.0)
       end
     end
@@ -62,7 +62,7 @@ RSpec.describe Fees::SubscriptionService do
 
           aggregate_failures do
             expect(created_fee.id).not_to be_nil
-            expect(created_fee.amount_cents).to eq(90)
+            expect(created_fee.amount).to eq(90)
           end
         end
       end
@@ -73,7 +73,7 @@ RSpec.describe Fees::SubscriptionService do
         it 'creates a fee with zero amount' do
           result = fees_subscription_service.create
 
-          expect(result.fee.amount_cents).to eq(0)
+          expect(result.fee.amount).to eq(0)
         end
       end
     end
@@ -108,9 +108,9 @@ RSpec.describe Fees::SubscriptionService do
           aggregate_failures do
             expect(created_fee.id).not_to be_nil
             expect(created_fee.invoice_id).to eq(invoice.id)
-            expect(created_fee.amount_cents).to eq(plan.amount_cents)
+            expect(created_fee.amount).to eq(plan.amount)
             expect(created_fee.amount_currency).to eq(plan.amount_currency)
-            expect(created_fee.vat_amount_cents).to eq(20)
+            expect(created_fee.vat_amount).to eq(20)
             expect(created_fee.vat_rate).to eq(20.0)
           end
         end
@@ -125,7 +125,7 @@ RSpec.describe Fees::SubscriptionService do
               result = fees_subscription_service.create
               created_fee = result.fee
 
-              expect(created_fee.amount_cents).to eq(90)
+              expect(created_fee.amount).to eq(90)
             end
           end
 
@@ -135,7 +135,7 @@ RSpec.describe Fees::SubscriptionService do
             it 'creates a fee with zero amount' do
               result = fees_subscription_service.create
 
-              expect(result.fee.amount_cents).to eq(0)
+              expect(result.fee.amount).to eq(0)
             end
           end
         end
@@ -147,7 +147,7 @@ RSpec.describe Fees::SubscriptionService do
             result = fees_subscription_service.create
             created_fee = result.fee
 
-            expect(created_fee.amount_cents).to eq(100)
+            expect(created_fee.amount).to eq(100)
           end
 
           context 'when plan has a trial period' do
@@ -160,7 +160,7 @@ RSpec.describe Fees::SubscriptionService do
                 result = fees_subscription_service.create
                 created_fee = result.fee
 
-                expect(created_fee.amount_cents).to eq(90)
+                expect(created_fee.amount).to eq(90)
               end
             end
 
@@ -171,7 +171,7 @@ RSpec.describe Fees::SubscriptionService do
                 result = fees_subscription_service.create
                 created_fee = result.fee
 
-                expect(created_fee.amount_cents).to eq(0)
+                expect(created_fee.amount).to eq(0)
               end
             end
           end
@@ -194,9 +194,9 @@ RSpec.describe Fees::SubscriptionService do
           aggregate_failures do
             expect(created_fee.id).not_to be_nil
             expect(created_fee.invoice_id).to eq(invoice.id)
-            expect(created_fee.amount_cents).to eq(55)
+            expect(created_fee.amount).to eq(55)
             expect(created_fee.amount_currency).to eq(plan.amount_currency)
-            expect(created_fee.vat_amount_cents).to eq(11)
+            expect(created_fee.vat_amount).to eq(11)
             expect(created_fee.vat_rate).to eq(20.0)
           end
         end
@@ -210,7 +210,7 @@ RSpec.describe Fees::SubscriptionService do
             it 'creates a fee with prorated amount based on trial' do
               result = fees_subscription_service.create
 
-              expect(result.fee.amount_cents).to eq(45)
+              expect(result.fee.amount).to eq(45)
             end
           end
 
@@ -220,7 +220,7 @@ RSpec.describe Fees::SubscriptionService do
             it 'creates a fee with zero amount' do
               result = fees_subscription_service.create
 
-              expect(result.fee.amount_cents).to eq(0)
+              expect(result.fee.amount).to eq(0)
             end
           end
         end
@@ -233,7 +233,7 @@ RSpec.describe Fees::SubscriptionService do
             created_fee = result.fee
 
             aggregate_failures do
-              expect(created_fee.amount_cents).to eq(55)
+              expect(created_fee.amount).to eq(55)
             end
           end
 
@@ -246,7 +246,7 @@ RSpec.describe Fees::SubscriptionService do
               it 'creates a fee with prorated amount based on trial' do
                 result = fees_subscription_service.create
 
-                expect(result.fee.amount_cents).to eq(45)
+                expect(result.fee.amount).to eq(45)
               end
             end
 
@@ -256,7 +256,7 @@ RSpec.describe Fees::SubscriptionService do
               it 'creates a fee with zero amount' do
                 result = fees_subscription_service.create
 
-                expect(result.fee.amount_cents).to eq(0)
+                expect(result.fee.amount).to eq(0)
               end
             end
           end
@@ -290,9 +290,9 @@ RSpec.describe Fees::SubscriptionService do
           aggregate_failures do
             expect(created_fee.id).not_to be_nil
             expect(created_fee.invoice_id).to eq(invoice.id)
-            expect(created_fee.amount_cents).to eq(plan.amount_cents)
+            expect(created_fee.amount).to eq(plan.amount)
             expect(created_fee.amount_currency).to eq(plan.amount_currency)
-            expect(created_fee.vat_amount_cents).to eq(20)
+            expect(created_fee.vat_amount).to eq(20)
             expect(created_fee.vat_rate).to eq(20.0)
           end
         end
@@ -305,7 +305,7 @@ RSpec.describe Fees::SubscriptionService do
             created_fee = result.fee
 
             aggregate_failures do
-              expect(created_fee.amount_cents).to eq(plan.amount_cents)
+              expect(created_fee.amount).to eq(plan.amount)
             end
           end
         end
@@ -329,9 +329,9 @@ RSpec.describe Fees::SubscriptionService do
           aggregate_failures do
             expect(created_fee.id).not_to be_nil
             expect(created_fee.invoice_id).to eq(invoice.id)
-            expect(created_fee.amount_cents).to eq(80)
+            expect(created_fee.amount).to eq(80)
             expect(created_fee.amount_currency).to eq(plan.amount_currency)
-            expect(created_fee.vat_amount_cents).to eq(16)
+            expect(created_fee.vat_amount).to eq(16)
             expect(created_fee.vat_rate).to eq(20.0)
           end
         end
@@ -344,7 +344,7 @@ RSpec.describe Fees::SubscriptionService do
             created_fee = result.fee
 
             aggregate_failures do
-              expect(created_fee.amount_cents).to eq(80)
+              expect(created_fee.amount).to eq(80)
             end
           end
         end
@@ -380,7 +380,7 @@ RSpec.describe Fees::SubscriptionService do
       created_fee = result.fee
 
       aggregate_failures do
-        expect(created_fee.amount_cents).to eq(100)
+        expect(created_fee.amount).to eq(100)
       end
     end
 
@@ -393,7 +393,7 @@ RSpec.describe Fees::SubscriptionService do
         it 'creates a fee with prorated amount on trial period' do
           result = fees_subscription_service.create
 
-          expect(result.fee.amount_cents).to eq(90)
+          expect(result.fee.amount).to eq(90)
         end
       end
 
@@ -403,7 +403,7 @@ RSpec.describe Fees::SubscriptionService do
         it 'creates a fee with 0 amount' do
           result = fees_subscription_service.create
 
-          expect(result.fee.amount_cents).to eq(0)
+          expect(result.fee.amount).to eq(0)
         end
       end
     end
@@ -440,7 +440,7 @@ RSpec.describe Fees::SubscriptionService do
     let(:plan) do
       create(
         :plan,
-        amount_cents: 100,
+        amount: 100,
         amount_currency: 'EUR',
       )
     end
@@ -501,9 +501,9 @@ RSpec.describe Fees::SubscriptionService do
       aggregate_failures do
         expect(created_fee.id).not_to be_nil
         expect(created_fee.invoice_id).to eq(invoice.id)
-        expect(created_fee.amount_cents).to eq(65)
+        expect(created_fee.amount).to eq(65)
         expect(created_fee.amount_currency).to eq(plan.amount_currency)
-        expect(created_fee.vat_amount_cents).to eq(13)
+        expect(created_fee.vat_amount).to eq(13)
         expect(created_fee.vat_rate).to eq(20.0)
       end
     end
@@ -520,9 +520,9 @@ RSpec.describe Fees::SubscriptionService do
         aggregate_failures do
           expect(created_fee.id).not_to be_nil
           expect(created_fee.invoice_id).to eq(invoice.id)
-          expect(created_fee.amount_cents).to eq(65)
+          expect(created_fee.amount).to eq(65)
           expect(created_fee.amount_currency).to eq(plan.amount_currency)
-          expect(created_fee.vat_amount_cents).to eq(13)
+          expect(created_fee.vat_amount).to eq(13)
           expect(created_fee.vat_rate).to eq(20.0)
         end
       end
@@ -540,7 +540,7 @@ RSpec.describe Fees::SubscriptionService do
         it 'creates a fee with prorated amount based on trial period' do
           result = fees_subscription_service.create
 
-          expect(result.fee.amount_cents).to eq(10)
+          expect(result.fee.amount).to eq(10)
         end
       end
 
@@ -550,7 +550,7 @@ RSpec.describe Fees::SubscriptionService do
         it 'creates a fee with zero amount' do
           result = fees_subscription_service.create
 
-          expect(result.fee.amount_cents).to eq(0)
+          expect(result.fee.amount).to eq(0)
         end
       end
     end
@@ -586,9 +586,9 @@ RSpec.describe Fees::SubscriptionService do
         aggregate_failures do
           expect(created_fee.id).not_to be_nil
           expect(created_fee.invoice_id).to eq(invoice.id)
-          expect(created_fee.amount_cents).to eq(11)
+          expect(created_fee.amount).to eq(11)
           expect(created_fee.amount_currency).to eq(plan.amount_currency)
-          expect(created_fee.vat_amount_cents).to eq(2)
+          expect(created_fee.vat_amount).to eq(2)
           expect(created_fee.vat_rate).to eq(20.0)
         end
       end
@@ -602,7 +602,7 @@ RSpec.describe Fees::SubscriptionService do
           it 'creates a fee with prorated amount based on the trial period' do
             result = fees_subscription_service.create
 
-            expect(result.fee.amount_cents).to eq(9)
+            expect(result.fee.amount).to eq(9)
           end
         end
 
@@ -612,7 +612,7 @@ RSpec.describe Fees::SubscriptionService do
           it 'creates a fee with zero amount' do
             result = fees_subscription_service.create
 
-            expect(result.fee.amount_cents).to eq(0)
+            expect(result.fee.amount).to eq(0)
           end
         end
       end
@@ -633,7 +633,7 @@ RSpec.describe Fees::SubscriptionService do
           result = fees_subscription_service.create
           created_fee = result.fee
 
-          expect(created_fee.amount_cents).to eq(11)
+          expect(created_fee.amount).to eq(11)
         end
       end
     end
@@ -648,9 +648,9 @@ RSpec.describe Fees::SubscriptionService do
         aggregate_failures do
           expect(created_fee.id).not_to be_nil
           expect(created_fee.invoice_id).to eq(invoice.id)
-          expect(created_fee.amount_cents).to eq(55)
+          expect(created_fee.amount).to eq(55)
           expect(created_fee.amount_currency).to eq(plan.amount_currency)
-          expect(created_fee.vat_amount_cents).to eq(11)
+          expect(created_fee.vat_amount).to eq(11)
           expect(created_fee.vat_rate).to eq(20.0)
         end
       end
@@ -664,7 +664,7 @@ RSpec.describe Fees::SubscriptionService do
           it 'creates a fee with prorated amount based on the trial' do
             result = fees_subscription_service.create
 
-            expect(result.fee.amount_cents).to eq(45)
+            expect(result.fee.amount).to eq(45)
           end
         end
 
@@ -674,7 +674,7 @@ RSpec.describe Fees::SubscriptionService do
           it 'creates a fee with zero amount' do
             result = fees_subscription_service.create
 
-            expect(result.fee.amount_cents).to eq(0)
+            expect(result.fee.amount).to eq(0)
           end
         end
       end
@@ -694,7 +694,7 @@ RSpec.describe Fees::SubscriptionService do
         it 'creates a subscription fee' do
           result = fees_subscription_service.create
 
-          expect(result.fee.amount_cents).to eq(55)
+          expect(result.fee.amount).to eq(55)
         end
       end
     end

@@ -4,7 +4,7 @@ module Charges
   module ChargeModels
     class GraduatedService < Charges::ChargeModels::BaseService
       def apply(value:)
-        result.amount_cents = compute_amount(value).to_i
+        result.amount = compute_amount(value)
         result
       end
 
@@ -17,10 +17,10 @@ module Charges
       def compute_amount(value)
         ranges.reduce(0) do |result_amount, range|
           # NOTE: Add flat amount to the total
-          result_amount += range[:flat_amount_cents] unless value.zero?
+          result_amount += BigDecimal(range[:flat_amount]) unless value.zero?
 
           units = compute_range_units(range[:from_value], range[:to_value], value)
-          result_amount += units * range[:per_unit_amount_cents]
+          result_amount += units * BigDecimal(range[:per_unit_amount])
 
           # NOTE: value is between the bounds of the current range,
           #       we must stop the loop

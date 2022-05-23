@@ -18,7 +18,7 @@ module Fees
         invoice: invoice,
         subscription: subscription,
         charge: charge,
-        amount_cents: amount_result.amount_cents,
+        amount: amount_result.amount,
         amount_currency: charge.amount_currency,
         vat_rate: customer.applicable_vat_rate,
       )

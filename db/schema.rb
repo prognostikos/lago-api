@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_17_095914) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_23_122711) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -47,12 +47,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_17_095914) do
     t.string "code"
     t.integer "status", default: 0, null: false
     t.datetime "terminated_at"
-    t.bigint "amount_cents", null: false
+    t.bigint "amount_cents", default: 0, null: false
     t.string "amount_currency", null: false
     t.integer "expiration", null: false
     t.integer "expiration_duration"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "amount"
     t.index ["organization_id", "code"], name: "index_coupons_on_organization_id_and_code", unique: true, where: "(code IS NOT NULL)"
     t.index ["organization_id"], name: "index_coupons_on_organization_id"
   end
@@ -99,13 +100,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_17_095914) do
     t.uuid "invoice_id"
     t.uuid "charge_id"
     t.uuid "subscription_id"
-    t.bigint "amount_cents", null: false
+    t.bigint "amount_cents", default: 0, null: false
     t.string "amount_currency", null: false
-    t.bigint "vat_amount_cents", null: false
+    t.bigint "vat_amount_cents", default: 0, null: false
     t.string "vat_amount_currency", null: false
     t.float "vat_rate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "vat_amount"
+    t.decimal "amount"
     t.index ["charge_id"], name: "index_fees_on_charge_id"
     t.index ["invoice_id"], name: "index_fees_on_invoice_id"
     t.index ["subscription_id"], name: "index_fees_on_subscription_id"
@@ -125,6 +128,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_17_095914) do
     t.bigint "total_amount_cents", default: 0, null: false
     t.string "total_amount_currency"
     t.integer "sequential_id"
+    t.decimal "amount"
+    t.decimal "vat_amount"
+    t.decimal "total_amount"
     t.index ["sequential_id"], name: "index_invoices_on_sequential_id"
     t.index ["subscription_id"], name: "index_invoices_on_subscription_id"
   end
@@ -157,10 +163,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_17_095914) do
     t.string "code", null: false
     t.integer "interval", null: false
     t.string "description"
-    t.bigint "amount_cents", null: false
+    t.bigint "amount_cents", default: 0, null: false
     t.string "amount_currency", null: false
     t.float "trial_period"
     t.boolean "pay_in_advance", default: false, null: false
+    t.decimal "amount"
     t.index ["code", "organization_id"], name: "index_plans_on_code_and_organization_id", unique: true
     t.index ["organization_id"], name: "index_plans_on_organization_id"
   end

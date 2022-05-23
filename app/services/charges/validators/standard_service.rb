@@ -14,12 +14,12 @@ module Charges
 
       private
 
-      def amount_cents
-        properties['amount_cents']
+      def amount
+        BigDecimal(properties['amount'])
       end
 
       def valid_amount?
-        amount_cents.present? && amount_cents.is_a?(Integer) && amount_cents >= 0
+        amount.present? && amount.finite? && amount.positive?
       end
     end
   end

@@ -14,7 +14,7 @@ RSpec.describe Coupons::CreateService, type: :service do
         name: 'Super Coupon',
         code: 'free-beer',
         organization_id: organization.id,
-        amount_cents: 100,
+        amount: '100.0',
         amount_currency: 'EUR',
         expiration: 'time_limit',
         expiration_duration: 3,

@@ -8,7 +8,7 @@ module Coupons
 
       coupon.name = args[:name]
       coupon.code = args[:code]
-      coupon.amount_cents = args[:amount_cents]
+      coupon.amount = args[:amount]
       coupon.amount_currency = args[:amount_currency]
       coupon.expiration = args[:expiration]&.to_sym
       coupon.expiration_duration = args[:expiration_duration]
