@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_20_121235) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_24_125140) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_20_121235) do
     t.string "amount_currency", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "terminated_at", precision: nil
     t.index ["coupon_id", "customer_id"], name: "index_applied_coupons_on_coupon_id_and_customer_id", unique: true
     t.index ["coupon_id"], name: "index_applied_coupons_on_coupon_id"
     t.index ["customer_id"], name: "index_applied_coupons_on_customer_id"
@@ -68,6 +69,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_20_121235) do
     t.datetime "updated_at", null: false
     t.index ["organization_id", "code"], name: "index_coupons_on_organization_id_and_code", unique: true, where: "(code IS NOT NULL)"
     t.index ["organization_id"], name: "index_coupons_on_organization_id"
+  end
+
+  create_table "credits", force: :cascade do |t|
+    t.uuid "invoice_id"
+    t.uuid "applied_coupon_id"
+    t.bigint "amount_cents", null: false
+    t.string "amount_currency", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["applied_coupon_id"], name: "index_credits_on_applied_coupon_id"
+    t.index ["invoice_id"], name: "index_credits_on_invoice_id"
   end
 
   create_table "customers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -203,6 +215,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_20_121235) do
   add_foreign_key "billable_metrics", "organizations"
   add_foreign_key "charges", "billable_metrics"
   add_foreign_key "charges", "plans"
+  add_foreign_key "credits", "applied_coupons"
+  add_foreign_key "credits", "invoices"
   add_foreign_key "customers", "organizations"
   add_foreign_key "events", "customers"
   add_foreign_key "events", "organizations"
