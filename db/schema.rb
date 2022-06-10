@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_01_150058) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_10_134535) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -203,6 +203,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_01_150058) do
     t.index ["api_key"], name: "index_organizations_on_api_key", unique: true
   end
 
+  create_table "payment_provider_customers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "customer_id", null: false
+    t.string "type", null: false
+    t.string "external_customer_id", null: false
+    t.jsonb "settings", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_payment_provider_customers_on_customer_id"
+    t.index ["external_customer_id"], name: "index_payment_provider_customers_on_external_customer_id"
+  end
+
   create_table "plans", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "organization_id", null: false
     t.string "name", null: false
@@ -259,6 +270,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_01_150058) do
   add_foreign_key "invoices", "subscriptions"
   add_foreign_key "memberships", "organizations"
   add_foreign_key "memberships", "users"
+  add_foreign_key "payment_provider_customers", "customers"
   add_foreign_key "plans", "organizations"
   add_foreign_key "subscriptions", "customers"
   add_foreign_key "subscriptions", "plans"
